@@ -79,10 +79,18 @@ public class MazeGridTest {
         assertEquals("END", mazeGrid.getEndPoint().coordType.getCoordinateType());
     }
 
-    @Test void getSizeOfRowOne(){
-        mazeGrid.setCoordinates(listOfCoordinates);
-        assertEquals(3, mazeGrid.getCoordinatesRowSize(1));
+    @Test
+    public void canAddToCoordinates(){
+        mazeGrid.setCoordinates();
     }
+
+    @Test
+    public void canPrintGrid(){
+        mazeGrid.setCoordinates();
+        mazeGrid.printGrid();
+    }
+
+
 
 
 }

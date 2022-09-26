@@ -13,8 +13,6 @@ public class Coordinate {
         this.coordType = coordType;
     }
 
-
-
     public int getX() {
         return this.x;
     }

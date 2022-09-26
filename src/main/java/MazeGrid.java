@@ -1,3 +1,4 @@
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,8 @@ public class MazeGrid {
     private final int height;
     private final int width;
     private ArrayList<Coordinate> listOfCoordinates;
-    private Coordinate[][] coordinates;
+    private ArrayList<ArrayList<Coordinate>> grid;
+
     private Coordinate startPoint;
     private Coordinate endPoint;
     private int noOfPaths;
@@ -18,9 +20,9 @@ public class MazeGrid {
         this.height = height;
         this.width = width;
         this.listOfCoordinates = listOfCoordinates;
-        coordinates = new Coordinate[height][width];
-//        startPoint = new Coordinate();
-//        endPoint = new Coordinate();
+        grid =  new ArrayList<ArrayList<Coordinate>>();
+        startPoint = new Coordinate();
+        endPoint = new Coordinate();
         this.noOfPaths = 0;
 
     }
@@ -37,8 +39,8 @@ public class MazeGrid {
         return this.width;
     }
 
-    public Coordinate[][] getCoordinates() {
-        return this.coordinates;
+    public List<ArrayList<Coordinate>> getCoordinates() {
+        return this.grid;
     }
 
     public Coordinate getStartPoint() {
@@ -54,17 +56,16 @@ public class MazeGrid {
     }
 
     public void setCoordinates() {
-//        Coordinate tempCoords[] = new Coordinate[this.getWidth()];
-//        for (int i = 1; i < this.getHeight(); i++) {
-//            tempCoords = listOfCoordinates.subList(0, this.getWidth()).toArray(new Coordinate[0]);
-//        }
-        //Loop for height
-            //tempArray = Split from index 0 to width-1
-            //add new array to coordinates array(produces 2d array)
-        
+        int counter  = 0;
+        for (int i = 0; i < this.getHeight(); i++) {
+            ArrayList<Coordinate> tempCoords = new ArrayList<Coordinate>(listOfCoordinates.subList(counter,counter+this.getWidth()));
+            grid.add(tempCoords);
+            System.out.println(grid);
+            counter += this.getWidth();
+        }
     }
 
-    //Need to give it a list of coordinates to loop through the list to find the Start point
+    //Need to give it a list of grid to loop through the list to find the Start point
     public void setStartPoint(ArrayList<Coordinate> listOfCoordinates) {
         for (Coordinate listOfCoordinate : listOfCoordinates) {
             if ("START".equals(listOfCoordinate.coordType.getCoordinateType())) {
@@ -72,6 +73,8 @@ public class MazeGrid {
             }
         }
     }
+
+
 
     //    Same as above but end point
     public void setEndPoint(ArrayList<Coordinate> listOfCoordinates) {
@@ -93,7 +96,12 @@ public class MazeGrid {
         this.noOfPaths = count;
     }
 
-    public int getCoordinatesRowSize(int i) {
-
+    public void printGrid(){
+        for(int i = 0; i < this.getHeight(); i++){
+            System.out.println();
+            for(int j = 0; j < this.getWidth(); j++){
+                System.out.print((grid.get(i).get(j)).coordType + " ");
+            }
+        }
     }
 }
