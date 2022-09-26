@@ -1,17 +1,24 @@
 public class Node {
 
+    private int id;
     private int x;
     private int y;
-    protected CoordType coordType;
 
-    private int id;
-
-
-    public Node(int x, int y, CoordType coordType, int id){
+    public Node(int id, int x, int y){
+        this.id = id;
         this.x = x;
         this.y = y;
-        this.coordType = coordType;
-        this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

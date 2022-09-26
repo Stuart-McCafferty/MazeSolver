@@ -10,10 +10,10 @@ public class MazeGrid {
     private final int width;
     private ArrayList<Coordinate> listOfCoordinates;
     private ArrayList<ArrayList<Coordinate>> grid;
-
     private Coordinate startPoint;
     private Coordinate endPoint;
     private int noOfPaths;
+    private ArrayList<Node> nodeList;
 
 
     public MazeGrid(int height, int width, ArrayList<Coordinate> listOfCoordinates){
@@ -24,6 +24,7 @@ public class MazeGrid {
         startPoint = new Coordinate();
         endPoint = new Coordinate();
         this.noOfPaths = 0;
+        nodeList = new ArrayList<Node>();
 
     }
 
@@ -103,5 +104,17 @@ public class MazeGrid {
                 System.out.print((grid.get(i).get(j)).coordType + " ");
             }
         }
+    }
+    
+    public ArrayList<Node> getNodeList(){
+        int counter = 0;
+        for (Coordinate listOfCoordinate : listOfCoordinates) {
+            if (!"WALL".equals(listOfCoordinate.coordType.getCoordinateType())) {
+                Node nodeTemp = new Node(counter, listOfCoordinate.getX(), listOfCoordinate.getY());
+                nodeList.add(nodeTemp);
+                counter += 1;
+            }
+        }
+        return nodeList;
     }
 }
