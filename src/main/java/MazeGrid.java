@@ -1,4 +1,3 @@
-import javax.xml.bind.SchemaOutputResolver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,5 +115,23 @@ public class MazeGrid {
             }
         }
         return nodeList;
+    }
+
+    public Node getStartNode(){
+        for (Coordinate listOfCoordinate : listOfCoordinates) {
+            if ("START".equals(listOfCoordinate.coordType.getCoordinateType())) {
+                return new Node(0, listOfCoordinate.getX(), listOfCoordinate.getY());
+            }
+        }
+        return null;
+    }
+
+    public Node getEndNode(){
+        for (Coordinate listOfCoordinate : listOfCoordinates) {
+            if ("END".equals(listOfCoordinate.coordType.getCoordinateType())) {
+                return new Node(0, listOfCoordinate.getX(), listOfCoordinate.getY());
+            }
+        }
+        return null;
     }
 }
