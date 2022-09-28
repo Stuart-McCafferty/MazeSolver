@@ -12,6 +12,10 @@ public class Node {
         visited = false;
     }
 
+    public Node() {
+
+    }
+
     public int getId() {
         return id;
     }

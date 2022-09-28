@@ -124,7 +124,8 @@ public class GraphTest {
 
         nodeArrayList = new ArrayList<>(mazeGrid.getNodeList());
         startNode = mazeGrid.getStartNode();
-        endNode = mazeGrid.getEndNode();
+//        endNode = mazeGrid.getEndNode();
+        endNode =  new Node(0,0, 0);
         graph = new Graph(nodeArrayList,startNode, endNode);
 
     }
