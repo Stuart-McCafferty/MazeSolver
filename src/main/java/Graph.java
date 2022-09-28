@@ -36,7 +36,7 @@ public class Graph {
             int tempX = nodeOne.getX();
             int tempY = nodeOne.getY();
             for (Node nodetwo: nodeArrayList){
-                if ((nodetwo.getX() == tempX - 1) && (nodetwo.getY() == tempY)){ //left
+                if ((nodetwo.getY() == tempY + 1) && (nodetwo.getX() == tempX)){ //up
                     addEdge(nodeOne.getId(), nodetwo.getId());
                 }
                 if ((nodetwo.getX() == tempX + 1) && (nodetwo.getY() == tempY)){ //right
@@ -45,7 +45,7 @@ public class Graph {
                 if ((nodetwo.getY() == tempY - 1) && (nodetwo.getX() == tempX)){ //down
                     addEdge(nodeOne.getId(), nodetwo.getId());
                 }
-                if ((nodetwo.getY() == tempY + 1) && (nodetwo.getX() == tempX)){ //up
+                if ((nodetwo.getX() == tempX - 1) && (nodetwo.getY() == tempY)){ //left
                     addEdge(nodeOne.getId(), nodetwo.getId());
                 }
             }
@@ -58,17 +58,17 @@ public class Graph {
         currentList.add(dstNode);
     }
 
-    public boolean checkEdge(int src, int dst) {
-        LinkedList<Node> currentList = adjacencyList.get(src);
-        Node dstNode = adjacencyList.get(dst).get(0);
-
-        for(Node node : currentList) {
-            if(node == dstNode) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean checkEdge(int src, int dst) {
+//        LinkedList<Node> currentList = adjacencyList.get(src);
+//        Node dstNode = adjacencyList.get(dst).get(0);
+//
+//        for(Node node : currentList) {
+//            if(node == dstNode) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     public void print() {
         for(LinkedList<Node> currentList : adjacencyList) {
@@ -87,20 +87,26 @@ public class Graph {
 
 //    DFS
     public void DFS(Node node) {
+        this.path.clear();
+        this.resetNodesVisited();
+        DFSHelper(node);
+        while(!path.empty()){
+            System.out.println(path.pop().getId());
+        }
+    }
+
+    public void DFSHelper(Node node ){
         node.visit();
-        System.out.println(node.getId() + " Visited ");
+        path.push(node);
 
         LinkedList<Node> allNeighbors = adjacencyList.get(node.getId());
-        if (allNeighbors == null)
-            return;
-
 
         for (Node neighbor : allNeighbors) {
-            System.out.println(allNeighbors);
             if (!neighbor.isVisited()) {
-                System.out.println("Calling DFS");
-                DFS(neighbor);
+                DFSHelper(neighbor);
             }
         }
     }
+
+
 }

@@ -165,7 +165,7 @@ public class GraphTest {
     public void DFSSolve(){
         graph.addNodes();
         graph.findEdges();
-        graph.DFS(endNode);
+        graph.DFS(startNode);
         graph.resetNodesVisited();
     }
 
