@@ -1,3 +1,5 @@
+package com.codeclan.examples.models;
+
 public enum CoordType {
     START("START"),
     END("END"),

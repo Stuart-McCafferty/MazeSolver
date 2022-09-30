@@ -1,4 +1,4 @@
-package com.codeclan.examples.MazeSolver;
+package com.codeclan.examples;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

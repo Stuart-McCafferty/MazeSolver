@@ -1,25 +1,66 @@
+package com.codeclan.examples.models;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import sun.awt.image.ImageWatched;
+
+import javax.persistence.*;
 import java.util.*;
 
+
+@Entity
+@Table(name="graphs")
 public class Graph {
 
-    ArrayList<LinkedList<Node>> adjacencyList;
-    Stack<Node> path;
-    ArrayList<Node> nodeArrayList;
-    private Node startNode;
-    private Node endNode;
-    private Node nextNode;
-    private Boolean isFound;
-    private Boolean allVisited;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    public Graph(ArrayList<Node> nodeArrayList, Node startNode, Node endNode) {
+    @javax.persistence.Transient
+    private List<LinkedList<Node>> adjacencyList;
+
+    @javax.persistence.Transient
+    private Stack<Node> path;
+
+    //dont think I can store a stack
+    @Column(name = "reverse_path")
+    private Stack<Node> reversePath;
+
+    @javax.persistence.Transient
+    private Node endNode;
+
+    @javax.persistence.Transient
+    private Node nextNode;
+
+    @javax.persistence.Transient
+    private Boolean isFound;
+
+    @OneToMany(mappedBy="graph")
+    @JsonIgnoreProperties({"graph"})
+    private List<Node> nodeArrayList;
+
+    @OneToMany(mappedBy="graph")
+    @JsonIgnoreProperties({"graph"})
+    private List<Node> visitedNodes;
+
+    public Graph() {
         adjacencyList = new ArrayList<>();
         path = new Stack<>();
-        this.nodeArrayList = nodeArrayList;
-        this.startNode = startNode;
-        this.endNode = endNode;
+        reversePath = new Stack<>();
+        this.nodeArrayList = new ArrayList<>();
+        endNode = new Node();;
         isFound = Boolean.FALSE;
-        allVisited = Boolean.FALSE;
         nextNode = new Node();
+        visitedNodes = new LinkedList<>();
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getAdjacencyListSize() {
@@ -86,15 +127,36 @@ public class Graph {
         this.path.clear();
         this.resetNodesVisited();
         DFSHelper(node);
-        while (!path.empty()) {
-            System.out.println(path.pop().getId());
+        System.out.print("The nodes it visited in order to reach the end");
+        while(!visitedNodes.isEmpty()){
+            int indexOfLastElement = visitedNodes.size() - 1;
+            System.out.print(" " + visitedNodes.remove(indexOfLastElement).getId());
         }
+        System.out.println("");
+        System.out.print("Path is: ");
+        while (!path.empty()) {
+            reversePath.add(path.pop());
+        }
+        while (!reversePath.empty()) {
+            System.out.print(" " + reversePath.pop().getId());
+        }
+
     }
 
     public void DFSHelper(Node node) {
+        boolean alreadyVisited = false;
         node.visit();
         if (!isFound){
-            path.add(node);
+            for( Node nodeLoop : path){
+                if (nodeLoop.getId() == node.getId()) {
+                    alreadyVisited = true;
+                    break;
+                }
+            }
+            if(!alreadyVisited){
+                path.add(node);
+                visitedNodes.add(node);
+            }
         }
         if (node.getX() != endNode.getX() || node.getY() != endNode.getY()) {
             nextNode = (getUnvisitedNode(node));
@@ -109,15 +171,6 @@ public class Graph {
         } else if (node.getX() == endNode.getX() && node.getY() == endNode.getY()) {
             isFound = true;
         }
-        //PROBLEM
-        //Want path to show  the route from start to end
-        // At the moment it shows every node is visits before the ned
-        // I want to be able to take (pop()?) nodes off when it "backtracks"
-        //May need to redesign the search as a stack
-        //pushes node onto stack - checks if node = endNode
-        //If not add one of its unvisited nodes
-        //if all neighbours are visited pop() node (repeat)
-
     }
 
     private Node getUnvisitedNode(Node node) {
