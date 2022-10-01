@@ -1,49 +1,31 @@
 package com.codeclan.examples.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name="maze_grids")
+
 public class MazeGrid {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    private int height;
 
-    @Column(name = "height")
-    private final int height;
+    private int width;
 
-    @Column(name = "width")
-    private final int width;
-
-    //one to many
-    @OneToMany(mappedBy="mazeGrid")
-    @JsonIgnoreProperties({"mazeGrid"})
     private List<Coordinate> listOfCoordinates;
 
-    @OneToMany(mappedBy="mazeGrid")
-    @JsonIgnoreProperties({"mazeGrid"})
     private List<Node> nodeList;
 
-    public MazeGrid(int height, int width){
+    public MazeGrid(int height, int width, List<Coordinate> listOfCoordinates){
         this.height = height;
         this.width = width;
-        this.listOfCoordinates = new ArrayList<Coordinate>();
-        this.nodeList = new ArrayList<Node>();
+        this.listOfCoordinates = listOfCoordinates;
+        nodeList = new ArrayList<Node>();
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getListOfCoordinatesCount() {
         return this.listOfCoordinates.size();
@@ -56,12 +38,12 @@ public class MazeGrid {
     public int getWidth() {
         return this.width;
     }
-
+    @JsonIgnore
     public List<Node> getNodeList(){
         int counter = 0;
         for (Coordinate listOfCoordinate : listOfCoordinates) {
             if (!"WALL".equals(listOfCoordinate.coordType.getCoordinateType())) {
-                Node nodeTemp = new Node(counter, listOfCoordinate.getX(), listOfCoordinate.getY(), this.getStartNode().getMazeGrid(), this.getStartNode().getGraph());
+                Node nodeTemp = new Node(counter, listOfCoordinate.getX(), listOfCoordinate.getY());
                 nodeList.add(nodeTemp);
                 counter += 1;
             }
@@ -74,7 +56,7 @@ public class MazeGrid {
     public Node getStartNode(){
         for (Coordinate listOfCoordinate : listOfCoordinates) {
             if ("START".equals(listOfCoordinate.coordType.getCoordinateType())) {
-                return new Node(0, listOfCoordinate.getX(), listOfCoordinate.getY(), this.getStartNode().getMazeGrid(), this.getStartNode().getGraph());
+                return new Node(0, listOfCoordinate.getX(), listOfCoordinate.getY());
             }
         }
         return null;
@@ -83,7 +65,7 @@ public class MazeGrid {
     public Node getEndNode(){
         for (Coordinate listOfCoordinate : listOfCoordinates) {
             if ("END".equals(listOfCoordinate.coordType.getCoordinateType())) {
-                return new Node(0, listOfCoordinate.getX(), listOfCoordinate.getY(), this.getEndNode().getMazeGrid(), this.getEndNode().getGraph());
+                return new Node(0, listOfCoordinate.getX(), listOfCoordinate.getY());
             }
         }
         return null;

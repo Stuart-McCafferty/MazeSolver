@@ -1,67 +1,42 @@
 package com.codeclan.examples.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import sun.awt.image.ImageWatched;
-
-import javax.persistence.*;
 import java.util.*;
 
 
-@Entity
-@Table(name="graphs")
+
 public class Graph {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    private ArrayList<LinkedList<Node>> adjacencyList;
 
-    @javax.persistence.Transient
-    private List<LinkedList<Node>> adjacencyList;
-
-    @javax.persistence.Transient
     private Stack<Node> path;
 
-    //dont think I can store a stack
-    @Column(name = "reverse_path")
-    private Stack<Node> reversePath;
+    private Node startNode;
 
-    @javax.persistence.Transient
     private Node endNode;
 
-    @javax.persistence.Transient
     private Node nextNode;
 
-    @javax.persistence.Transient
     private Boolean isFound;
 
-    @OneToMany(mappedBy="graph")
-    @JsonIgnoreProperties({"graph"})
     private List<Node> nodeArrayList;
 
-    @OneToMany(mappedBy="graph")
-    @JsonIgnoreProperties({"graph"})
-    private List<Node> visitedNodes;
+    private Stack<Node> visitedNodes;
 
-    public Graph() {
+    private ArrayList<Stack<Node>> result;
+
+
+    public Graph(List<Node> nodeArrayList, Node startNode, Node endNode) {
         adjacencyList = new ArrayList<>();
         path = new Stack<>();
-        reversePath = new Stack<>();
-        this.nodeArrayList = new ArrayList<>();
-        endNode = new Node();;
+        this.nodeArrayList = nodeArrayList;
+        this.endNode = endNode;
+        this.startNode = startNode;
         isFound = Boolean.FALSE;
         nextNode = new Node();
-        visitedNodes = new LinkedList<>();
+        visitedNodes = new Stack<>();
+        result = new ArrayList<Stack<Node>>();
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getAdjacencyListSize() {
         return adjacencyList.size();
@@ -123,24 +98,14 @@ public class Graph {
     }
 
     //    DFS
-    public void DFS(Node node) {
+    public ArrayList<Stack<Node>> DFS(Node node) {
         this.path.clear();
         this.resetNodesVisited();
         DFSHelper(node);
-        System.out.print("The nodes it visited in order to reach the end");
-        while(!visitedNodes.isEmpty()){
-            int indexOfLastElement = visitedNodes.size() - 1;
-            System.out.print(" " + visitedNodes.remove(indexOfLastElement).getId());
-        }
-        System.out.println("");
-        System.out.print("Path is: ");
-        while (!path.empty()) {
-            reversePath.add(path.pop());
-        }
-        while (!reversePath.empty()) {
-            System.out.print(" " + reversePath.pop().getId());
-        }
-
+        this.resetNodesVisited();
+        this.result.add(path);
+        this.result.add(visitedNodes);
+        return result;
     }
 
     public void DFSHelper(Node node) {
