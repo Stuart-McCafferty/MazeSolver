@@ -10,8 +10,7 @@ import './App.css';
 // once visited nodes has been looped through
 // loop through path 
 
-//Extension
-// add BFS to search
+
 
 
 function App() {
