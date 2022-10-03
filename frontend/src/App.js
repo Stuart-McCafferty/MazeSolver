@@ -1,4 +1,5 @@
 import './App.css';
+import MazeGridContainer from './containers/MazeGridContainer';
 
 // PLAN
 // drop down to select maze 
@@ -10,13 +11,20 @@ import './App.css';
 // once visited nodes has been looped through
 // loop through path 
 
-
-
-
 function App() {
+
+  const mazes = [
+    {url: "http://localhost:8080/maze/1", solve: "http://localhost:8080/solve/1"},
+    {url: "http://localhost:8080/maze/2", solve: "http://localhost:8080/solve/2"},
+    {url: "http://localhost:8080/maze/3", solve: "http://localhost:8080/solve/3"},
+    {url: "http://localhost:8080/maze/4", solve: "http://localhost:8080/solve/4"}
+  ]
   return (
-    <h1>Maze Solver</h1>
-    
+    <div>
+      <h1>Maze Solver</h1>
+      <MazeGridContainer mazes = { mazes } />
+    </div>
+
   );
 }
 

@@ -36,3 +36,56 @@
     transform: rotate(360deg);
   }
 }
+
+.START {
+  outline-style: solid;
+  outline-color: black;
+  background-color: green;
+  width: 50px;
+  height: 50px;
+}
+
+.END {
+  outline-style: solid;
+  outline-color: black;
+  background-color: red;
+  width: 50px;
+  height: 50px;
+}
+
+.WALL {
+  outline-style: solid;
+  outline-color: black;
+  background-color: black;
+  width: 50px;
+  height: 50px;
+}
+
+.PATH {
+  outline-style: solid;
+  outline-color: black;
+  width: 50px;
+  height: 50px;
+}
+
+.VISITED {
+  outline-style: solid;
+  outline-color: black;
+  background-color: lightskyblue;
+  width: 50px;
+  height: 50px;
+}
+
+.ROUTE {
+  outline-style: solid;
+  outline-color: black;
+  background-color: green;
+  width: 50px;
+  height: 50px;
+}
+
+.MazeGridCSS{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -103,6 +103,7 @@ public class Graph {
         this.resetNodesVisited();
         DFSHelper(node);
         this.resetNodesVisited();
+        System.out.println(visitedNodes.size());
         this.result.add(path);
         this.result.add(visitedNodes);
         return result;
