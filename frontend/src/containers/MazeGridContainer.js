@@ -36,22 +36,21 @@ const MazeGridContainer = ({ mazes }) => {
         }
     }, [selectedValue])
 
-    useEffect(() => {
-        if (mazeGrid.length > 1){
-            console.log(mazeGrid)
-        }
-    }, [mazeGrid])
+    // useEffect(() => {
+    //     if (mazeGrid.length > 1){
+    //         console.log(mazeGrid)
+    //     }
+    // }, [mazeGrid])
 
-    useEffect(() => {
-        if (mazeSolve.length > 1){
-            console.log(mazeSolve)
-        }
-    }, [mazeSolve])
+    // useEffect(() => {
+       
+    // }, [mazeSolve])
 
     return (
         <>
         <h4> Select Maze to solve</h4>
         <select onChange={handleChange} >
+            <option selected disabled>Select a maze</option>
             <option value="0">1</option>
             <option value="1">2</option>
             <option value="2">3</option>
