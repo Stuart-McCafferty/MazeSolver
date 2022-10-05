@@ -42,7 +42,7 @@ const Maze = ({mazeGrid, mazeSolve }) => {
         for(let i = 0; i < mazeSolve[1].length; i++){
             for(let x = 0; x < mazeGrid.length; x++){    
                 if (mazeSolve[1][i].x === mazeGrid[x].x && mazeSolve[1][i].y === mazeGrid[x].y){
-                    await delay(500);
+                    await delay(100);
                     colourSquareVisited(x);
                 }
             }
@@ -52,17 +52,11 @@ const Maze = ({mazeGrid, mazeSolve }) => {
 
     function colourSquareVisited(x){
         mazeGrid[x].coordType = 'VISITED'
-        // console.log(mazeGrid[x].coordType)
-        // console.log(mazeGrid[x].x)
-        // console.log(mazeGrid[x].y)
         setSolveNow(solveNow + 1)
     }
 
     function colourSquareRoute(x){
         mazeGrid[x].coordType = 'ROUTE'
-        // console.log(mazeGrid[x].coordType)
-        // console.log(mazeGrid[x].x)
-        // console.log(mazeGrid[x].y)
         setSolveNow(solveNow + 1)
     }
 
@@ -72,7 +66,7 @@ const Maze = ({mazeGrid, mazeSolve }) => {
         for(let i = 0; i < mazeSolve[0].length; i++){
             for(let x = 0; x < mazeGrid.length; x++){
                 if (mazeSolve[0][i].x === mazeGrid[x].x && mazeSolve[0][i].y === mazeGrid[x].y){
-                    await delay(250);
+                    await delay(50);
                     colourSquareRoute(x);
                 }
             }
