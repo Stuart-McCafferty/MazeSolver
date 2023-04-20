@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Maze from '../components/Maze';
 
-
-
 const MazeGridContainer = ({ mazes }) => {
     const [mazeGrid, setMazeGrid] = useState([]);
     const [mazeSolve, setMazeSolve] = useState([]);
@@ -35,16 +33,6 @@ const MazeGridContainer = ({ mazes }) => {
             getMazeSolve(mazes[selectedValue].solve)
         }
     }, [selectedValue])
-
-    // useEffect(() => {
-    //     if (mazeGrid.length > 1){
-    //         console.log(mazeGrid)
-    //     }
-    // }, [mazeGrid])
-
-    // useEffect(() => {
-       
-    // }, [mazeSolve])
 
     return (
         <>

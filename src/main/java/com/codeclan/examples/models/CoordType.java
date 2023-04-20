@@ -6,7 +6,7 @@ public enum CoordType {
     PATH("PATH"),
     WALL("WALL");
 
-    private final String coordinateType;
+    private String coordinateType;
 
     CoordType(String coordinateType) {
         this.coordinateType = coordinateType;
@@ -14,6 +14,10 @@ public enum CoordType {
 
     public String getCoordinateType(){
         return this.coordinateType;
+    }
+
+    public void setCoordinateType(String coordinateType) {
+        this.coordinateType = coordinateType;
     }
 }
 

@@ -85,12 +85,16 @@ const Maze = ({mazeGrid, mazeSolve }) => {
         <div className = "MazeGridCSS">
         <table>
         {
-        grid2d.map((row, index) => (
-            <tr key={index}>
-                {row.map(cellId => <th key={cellId}>{cellId}</th>)}
-            </tr>
-        ))
-        }
+            grid2d.map((row, index) => (
+                <tr key={index}>
+                {row.map(cellId => (
+                    <th key={`${cellId.props.x}-${cellId.props.y}`}>
+                    {cellId}
+                    </th>
+                ))}
+                </tr>
+            ))
+            }
         </table>
         </div>
         </>
