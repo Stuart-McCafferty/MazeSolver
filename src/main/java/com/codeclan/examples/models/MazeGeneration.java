@@ -51,16 +51,9 @@ public class MazeGeneration {
             nextNode = getUnvisitedNeighbour(current);
             if (nextNode != null){
                 nextNode.setPath(true);
-                isFound = true;
+                GenerateHelper(nextNode);
             }
-
-            //check if that cell has been visited
-            //if false, check all around this new cell excluding current and parent to see if they are visited
-            //if false set currenet to parent and new cell to current and set isFound to true
-            //call GenerateHelper(current, parent)
-
-            //if all nodes next to current have been visited remove from (queue or stack)
-            // call GenerateHelper(next in queue or stack, its parents
+            isFound = true;
         }
     }
 
