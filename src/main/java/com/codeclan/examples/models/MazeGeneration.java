@@ -39,18 +39,17 @@ public class MazeGeneration {
         Random random = new Random();
         int randomInt = random.nextInt(height);
         int randomInt2 = random.nextInt(width);
-        GenerateHelper(grid[randomInt][randomInt2], null);
+        GenerateHelper(grid[randomInt][randomInt2]);
 
     }
 
-    public void GenerateHelper(GeneratorNode current, GeneratorNode parent){
+    public void GenerateHelper(GeneratorNode current){
         current.isVisited = true;
         current.setPath(true);
         isFound = false;
         while(!isFound){
             nextNode = getUnvisitedNeighbour(current);
             if (nextNode != null){
-                System.out.println(nextNode.getX() + "" + nextNode.getY());
                 nextNode.setPath(true);
                 isFound = true;
             }
@@ -90,7 +89,7 @@ public class MazeGeneration {
                 for (int j = 1; j >= -1; j--) {
                     if((j + nextNode.getX() >= 0) && (j + nextNode.getX() <= height - 1)) {
                         if (directions[i][0] == 0) {
-                            nextNeighbour = grid[current.getX() + j][current.getY() + (directions[i][1] * 2)];
+                            nextNeighbour = grid[current.getX() + j][current.getY() + directions[i][1]];
                             if (nextNeighbour.isVisited) {
                                 neighbourVisited = true;
                             }
@@ -98,7 +97,7 @@ public class MazeGeneration {
                     }
                     if ((j + nextNode.getY() >= 0) && (j + nextNode.getY() <= width - 1)) {
                         if (directions[i][1] == 0) {
-                            nextNeighbour = grid[current.getX() + (directions[i][0] * 2)][current.getY() + j];
+                            nextNeighbour = grid[current.getX() + directions[i][0]][current.getY() + j];
                             if (nextNeighbour.isVisited) {
                                 neighbourVisited = true;
                             }
