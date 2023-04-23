@@ -14,8 +14,10 @@ public class MazeGeneration {
     private GeneratorNode nextNode;
     private Boolean isFound;
     private Boolean neighbourVisited;
-
     private GeneratorNode nextNeighbour;
+    private Stack<GeneratorNode> visitedCells;
+    private List<Coordinate> listOfCoordinates;
+
 
 
     public MazeGeneration(int height, int width){
@@ -26,9 +28,11 @@ public class MazeGeneration {
         nextNode = new GeneratorNode();
         nextNeighbour = new GeneratorNode();
         neighbourVisited = Boolean.FALSE;
+        visitedCells = new Stack<>();
+        listOfCoordinates = new ArrayList<Coordinate>();
     }
 
-    public void GenerateMaze(){
+    public List<Coordinate> GenerateMaze(){
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
                 this.grid[i][j] = new GeneratorNode(i,j,false);
@@ -39,21 +43,60 @@ public class MazeGeneration {
         Random random = new Random();
         int randomInt = random.nextInt(height);
         int randomInt2 = random.nextInt(width);
-        GenerateHelper(grid[randomInt][randomInt2]);
+        GenerateHelper(grid[0][0]);
+        CreateListCoords();
+        return listOfCoordinates;
+    }
 
+    public void CreateListCoords(){
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < width; y++) {
+                Coordinate coordinateTemp;
+                if(grid[y][x].isPath()){
+                    coordinateTemp = new Coordinate(0, 0, CoordType.PATH);
+                    listOfCoordinates.add(coordinateTemp);
+                } else {
+                    coordinateTemp = new Coordinate(0, 0, CoordType.WALL);
+                    listOfCoordinates.add(coordinateTemp);
+                }
+            }
+        }
+        int counter = 0;
+        for(int i = height-1; i >= 0; i--){
+            for(int j = 0; j <= width-1; j++){
+                listOfCoordinates.get(counter).setX(j);
+                listOfCoordinates.get(counter).setY(i);
+                counter++;
+            }
+        }
+        listOfCoordinates.set(0, new Coordinate(0, 0, CoordType.START));
+        int lastIndex = listOfCoordinates.size() - 1;
+        listOfCoordinates.set(lastIndex, new Coordinate(0, 0, CoordType.END));
     }
 
     public void GenerateHelper(GeneratorNode current){
+        System.out.println("CURRENT NODE: " + current.getX() + " " + current.getY());
         current.isVisited = true;
         current.setPath(true);
+        visitedCells.add(current);
         isFound = false;
         while(!isFound){
             nextNode = getUnvisitedNeighbour(current);
             if (nextNode != null){
                 nextNode.setPath(true);
                 GenerateHelper(nextNode);
+            }else {
+                System.out.println("POP: " + visitedCells.peek().getX() + " " + visitedCells.peek().getY());
+                visitedCells.pop();
+                if(visitedCells.peek().getX() == 0 && visitedCells.peek().getY() == 0){
+                    isFound = true;
+                    return;
+                }
+                System.out.println("POP: " + visitedCells.peek().getX() + " " + visitedCells.peek().getY());
+                visitedCells.pop();
+                GenerateHelper(visitedCells.peek());
+
             }
-            isFound = true;
         }
     }
 
@@ -74,17 +117,27 @@ public class MazeGeneration {
         List<int[]> directionsList = Arrays.asList(directions);
         Collections.shuffle(directionsList);
         directions = directionsList.toArray(new int[directionsList.size()][]);
-        System.out.println(Arrays.deepToString(directions));
         for(int i = 0; i < 4; i++){
             neighbourVisited = false;
             nextNode = grid[current.getX() + directions[i][0]][current.getY() + directions[i][1]];
+//            System.out.println("NEXT NODE: " + nextNode.getX() + " " + nextNode.getY());
+//            System.out.println("DIRECTION: " + directions[i][0] + "," + directions[i][1]);
             if(!nextNode.isVisited){
                 for (int j = 1; j >= -1; j--) {
+//                    System.out.println(j);
                     if((j + nextNode.getX() >= 0) && (j + nextNode.getX() <= height - 1)) {
                         if (directions[i][0] == 0) {
                             nextNeighbour = grid[current.getX() + j][current.getY() + directions[i][1]];
                             if (nextNeighbour.isVisited) {
                                 neighbourVisited = true;
+//                                System.out.println("(1)NextNode: " + nextNode.getX() + " " + nextNode.getY() + " and Neighbour Visited: " + nextNeighbour.getX() + " " + nextNeighbour.getY());
+                            }
+                            if (((directions[i][1]*2) + nextNode.getY() >= 0) && ((directions[i][1]*2) + nextNode.getY() <= height-1)) {
+                                nextNeighbour = grid[current.getX() + j][current.getY() + (directions[i][1]*2)];
+                                if (nextNeighbour.isVisited) {
+                                    neighbourVisited = true;
+//                                    System.out.println("(1)NextNode: " + nextNode.getX() + " " + nextNode.getY() + " and Neighbour Visited: " + nextNeighbour.getX() + " " + nextNeighbour.getY());
+                                }
                             }
                         }
                     }
@@ -93,6 +146,14 @@ public class MazeGeneration {
                             nextNeighbour = grid[current.getX() + directions[i][0]][current.getY() + j];
                             if (nextNeighbour.isVisited) {
                                 neighbourVisited = true;
+//                                System.out.println("(2)NextNode: " + nextNode.getX() + " " + nextNode.getY() + " and Neighbour Visited: " + nextNeighbour.getX() + " " + nextNeighbour.getY());
+                            }
+                            if (((directions[i][0]*2) + nextNode.getX() >= 0) && ((directions[i][0]*2) + nextNode.getX() <= width-1)) {
+                                nextNeighbour = grid[current.getX() + (directions[i][0]*2)][current.getY() + j];
+                                if (nextNeighbour.isVisited) {
+                                    neighbourVisited = true;
+//                                    System.out.println("(2)NextNode: " + nextNode.getX() + " " + nextNode.getY() + " and Neighbour Visited: " + nextNeighbour.getX() + " " + nextNeighbour.getY());
+                                }
                             }
                         }
                     }
@@ -123,7 +184,7 @@ public class MazeGeneration {
     }
 
     public static void main(String[] args){
-        MazeGeneration maze = new MazeGeneration(7,7);
+        MazeGeneration maze = new MazeGeneration(3,3);
         maze.GenerateMaze();
         maze.PrintMaze();
     }

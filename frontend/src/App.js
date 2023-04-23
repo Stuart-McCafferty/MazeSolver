@@ -17,7 +17,8 @@ function App() {
     {url: "http://localhost:8080/maze/1", solve: "http://localhost:8080/solve/1"},
     {url: "http://localhost:8080/maze/2", solve: "http://localhost:8080/solve/2"},
     {url: "http://localhost:8080/maze/3", solve: "http://localhost:8080/solve/3"},
-    {url: "http://localhost:8080/maze/4", solve: "http://localhost:8080/solve/4"}
+    {url: "http://localhost:8080/maze/4", solve: "http://localhost:8080/solve/4"},
+    {url: "http://localhost:8080/maze/5", solve: "http://localhost:8080/solve/5"}
   ]
   return (
     <div>

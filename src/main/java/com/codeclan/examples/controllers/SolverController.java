@@ -1855,4 +1855,12 @@ public class SolverController {
 
     }
 
+    @GetMapping(value = "/maze/5")
+    public List<Coordinate> getMazeFive(){
+        MazeGeneration mazeGeneration = new MazeGeneration(42,42);
+        return mazeGeneration.GenerateMaze();
+    }
+
+
+
 }
