@@ -69,9 +69,9 @@ public class MazeGeneration {
                 counter++;
             }
         }
-        listOfCoordinates.set(0, new Coordinate(0, 0, CoordType.START));
+        listOfCoordinates.set(0, new Coordinate(0, height-1, CoordType.START));
         int lastIndex = listOfCoordinates.size() - 1;
-        listOfCoordinates.set(lastIndex, new Coordinate(0, 0, CoordType.END));
+        listOfCoordinates.set(lastIndex, new Coordinate(width - 1, 0, CoordType.END));
     }
 
     public void GenerateHelper(GeneratorNode current){

@@ -1854,13 +1854,31 @@ public class SolverController {
         return graph.DFS(startNode);
 
     }
-
+    List<Coordinate> GLOBAL_LIST = new ArrayList<>();
     @GetMapping(value = "/maze/5")
     public List<Coordinate> getMazeFive(){
         MazeGeneration mazeGeneration = new MazeGeneration(42,42);
-        return mazeGeneration.GenerateMaze();
+        GLOBAL_LIST = mazeGeneration.GenerateMaze();
+        return GLOBAL_LIST;
     }
 
+    @GetMapping(value = "/solve/5")
+    public ArrayList<Stack<Node>> solveMazeFive(){
+        MazeGrid mazeGrid = new MazeGrid(42,42 , GLOBAL_LIST);
+        System.out.println(GLOBAL_LIST.size());
+        List<Node> nodeArrayList = new ArrayList<>(mazeGrid.getNodeList());
+        Node startNode = mazeGrid.getStartNode();
+        Node endNode = mazeGrid.getEndNode();
+
+        Graph graph = new Graph(nodeArrayList, startNode, endNode);
+        graph.addNodes();
+        graph.findEdges();
+
+        if (graph.DFS(startNode) == null){
+            return null;
+        }
+        return graph.DFS(startNode);
+    }
 
 
 }

@@ -19,6 +19,7 @@ const MazeGridContainer = ({ mazes }) => {
         .then(res => res.json())
         .then(mazeSolve => setMazeSolve(mazeSolve))
         .catch(err => console.error);
+        console.log("HELLO")
     }
 
     const handleChange = function(event) {
